@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="zh-CN" data-page-node-id="mgA4XxwqB86Wx52oj4duqq">
+<head data-page-node-id="ObGaQrCQ2DKrwFOIC11ta6">
+<meta charset="utf-8" data-page-node-id="rTDJv6A8WYY2V6JuK5CHvi">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f6fb8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="MSc 课表">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Crect width=&#39;100&#39; height=&#39;100&#39; rx=&#39;22&#39; fill=&#39;%231f6fb8&#39;/%3E%3Ctext x=&#39;50&#39; y=&#39;66&#39; font-size=&#39;58&#39; text-anchor=&#39;middle&#39; fill=&#39;%23fff&#39; font-family=&#39;-apple-system,Segoe UI,sans-serif&#39; font-weight=&#39;700&#39;%3E课%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Crect width=&#39;100&#39; height=&#39;100&#39; rx=&#39;22&#39; fill=&#39;%231f6fb8&#39;/%3E%3Ctext x=&#39;50&#39; y=&#39;66&#39; font-size=&#39;58&#39; text-anchor=&#39;middle&#39; fill=&#39;%23fff&#39; font-family=&#39;-apple-system,Segoe UI,sans-serif&#39; font-weight=&#39;700&#39;%3E课%3C/text%3E%3C/svg%3E">
+<title>MSc Marketing 课表 · 2026–27</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --panel:#ffffff; --ink:#2b2f36; --sub:#6b7280;
+    --line:#e3e7ee; --core:#1f6fb8; --elec:#6d5bd0; --cap:#0f8a6a;
+    --core-bg:#e8f1fb; --elec-bg:#efeafd; --cap-bg:#e2f5ee;
+    --warn:#c0392b; --shadow:0 1px 3px rgba(20,30,50,.08),0 4px 16px rgba(20,30,50,.06);
+    --intern:#3b8a3b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+       background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+  header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);
+         border-bottom:1px solid var(--line);padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  header h1{font-size:17px;margin:0;font-weight:650}
+  .counts{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto}
+  .chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:12.5px;box-shadow:var(--shadow)}
+  .chip b{font-size:14px}
+  .chip.core b{color:var(--core)} .chip.elec b{color:var(--elec)} .chip.cap b{color:var(--cap)}
+  .chip.warn{border-color:#f3c0b8;background:#fdecea;color:var(--warn)}
+  main{display:flex;gap:16px;padding:16px 20px;align-items:flex-start;max-width:1500px;margin:0 auto}
+  .courses{width:430px;flex:0 0 430px;max-height:calc(100vh - 110px);overflow:auto;padding-right:4px}
+  .calendar{flex:1;min-width:0}
+  .grp{margin-bottom:14px;scroll-margin-top:8px}
+  .grp h3{font-size:13px;margin:0 0 8px;color:var(--sub);font-weight:600;letter-spacing:.3px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:9px;box-shadow:var(--shadow)}
+  .card .top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .code{font-weight:700;font-size:13.5px}
+  .badge{font-size:11px;padding:1px 8px;border-radius:999px;font-weight:600}
+  .b-core{background:var(--core-bg);color:var(--core)}
+  .b-elec{background:var(--elec-bg);color:var(--elec)}
+  .b-cap{background:var(--cap-bg);color:var(--cap)}
+  .b-cross{background:#fff4d6;color:#9a6b00}
+  .title{font-size:12.5px;color:var(--sub);flex:1;min-width:120px}
+  .opts{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+  .opt{position:relative;border:1px solid var(--line);background:#fff;border-radius:9px;padding:6px 9px;cursor:pointer;
+       font-size:12px;transition:.12s;min-width:150px;flex:1}
+  .opt:hover{border-color:#b9c4d4}
+  .opt .lab{font-weight:700;margin-right:5px}
+  .opt .when{color:var(--sub);font-size:10.5px;display:block;margin-top:2px;line-height:1.35}
+  .opt .ven{color:#8a6d3b;font-size:10.5px;display:block;margin-top:1px}
+  .opt.sel{background:var(--core-bg);border-color:var(--core);color:var(--core)}
+  .opt.sel.elec{background:var(--elec-bg);border-color:var(--elec);color:var(--elec)}
+  .opt.sel.cap{background:var(--cap-bg);border-color:var(--cap);color:var(--cap)}
+  .opt.sel .ven{color:#9a6b00}
+  .opt.dim{opacity:.42;cursor:not-allowed;background:#f1f3f6}
+  .opt .reason{display:block;margin-top:3px;font-size:10.5px;color:var(--warn);font-weight:600}
+  .cal-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;cursor:pointer;font-size:12.5px;color:var(--sub)}
+  .tab.active{background:var(--core);border-color:var(--core);color:#fff;font-weight:600}
+  .cal-btns{display:flex;gap:8px;margin-left:auto}
+  .cal-btns button{font-size:13px;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 12px;cursor:pointer;color:var(--ink)}
+  .cal-btns button.primary{background:var(--core);color:#fff;border-color:var(--core)}
+  .cal-btns button:hover{filter:brightness(.97)}
+  .cal-range{font-size:12.5px;color:var(--sub);margin:2px 2px 10px;padding:8px 12px;background:#eef4fb;border:1px solid #d6e6f7;border-radius:9px}
+  .cal-range b{color:var(--core)}
+  .weeknav{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .weeknav button{border:1px solid var(--line);background:#fff;border-radius:9px;width:34px;height:34px;cursor:pointer;font-size:16px;color:var(--ink)}
+  .weeknav button:hover{background:#eef2f7}
+  .wklabel{font-size:13.5px;font-weight:600}
+  .wklabel .sub{font-weight:400;color:var(--sub);font-size:12px;margin-left:6px}
+  .weekstrip{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 8px;scroll-behavior:smooth;cursor:grab}
+  .weekstrip.drag{cursor:grabbing;scroll-behavior:auto}
+  .weekstrip::-webkit-scrollbar{height:7px}
+  .weekstrip::-webkit-scrollbar-thumb{background:#cbd3df;border-radius:4px}
+  .wkchip{flex:0 0 auto;scroll-snap-align:start;border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;
+         font-size:11.5px;color:var(--sub);white-space:nowrap;cursor:pointer;user-select:none}
+  .wkchip.active{background:var(--core);border-color:var(--core);color:#fff;font-weight:600}
+  .wkchip .cls{display:block;font-size:10px;color:#9aa3b0;margin-top:1px}
+  .wkchip.active .cls{color:#dce8f6}
+  .cal-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px 12px 12px;box-shadow:var(--shadow);overflow:auto}
+  .grid{display:flex;min-width:680px}
+  .axis{width:42px;flex:0 0 42px;position:relative}
+  .axis .hl{position:absolute;right:6px;font-size:10px;color:var(--sub);transform:translateY(-50%)}
+  .days{flex:1;display:flex}
+  .day{flex:1;position:relative;border-left:1px solid var(--line);min-width:0}
+  .day:first-child{border-left:none}
+  .day .dh{position:absolute;top:6px;left:0;right:0;text-align:center;font-size:12px;font-weight:600;color:var(--sub);z-index:3}
+  .day .dd{position:absolute;top:22px;left:0;right:0;text-align:center;font-size:11px;color:var(--sub);z-index:3}
+  .day.wknd .dh,.day.wknd .dd{color:#b06a2e}
+  .day.today .dh::after{content:"●";color:var(--core);font-size:8px;margin-left:3px}
+  .intern{position:absolute;left:0;right:0;background:rgba(59,138,59,.07);border-top:1px dashed rgba(59,138,59,.3);border-bottom:1px dashed rgba(59,138,59,.3);z-index:0}
+  .hr{position:absolute;left:0;right:0;border-top:1px dashed var(--line);font-size:0;z-index:1}
+  .hr.solid{border-top:1px solid #eef1f6}
+  .blk{position:absolute;left:3px;right:3px;border-radius:7px;padding:3px 5px;color:#fff;font-size:10.5px;line-height:1.25;
+       overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.18);cursor:pointer;z-index:2}
+  .blk.core{background:var(--core)} .blk.elec{background:var(--elec)} .blk.cap{background:var(--cap)}
+  .blk.cf{outline:2px solid var(--warn);outline-offset:-2px}
+  .blk .bcode{font-weight:700;font-size:11px}
+  .blk .bven{opacity:.92;font-size:9.5px}
+  .empty{color:var(--sub);font-size:13px;text-align:center;padding:40px 10px}
+  .legend{display:flex;gap:14px;font-size:12px;color:var(--sub);margin-top:8px;align-items:center;flex-wrap:wrap}
+  .dot{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#2b2f36;color:#fff;
+        padding:10px 18px;border-radius:10px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:80vw}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .foot{color:var(--sub);font-size:11.5px;margin:6px 2px 0;line-height:1.6}
+  .foot b{color:var(--ink)}
+  /* 方案保存 / 导入 */
+  .plans{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 2px}
+  .plans .phint{color:var(--sub);font-size:12.5px}
+  .plan-item{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--bd);border-radius:9px;
+             padding:5px 6px 5px 12px;font-size:13px;cursor:pointer;max-width:260px;transition:.15s}
+  .plan-item:hover{border-color:#185FA5;box-shadow:0 1px 7px rgba(24,95,165,.14)}
+  .plan-item .pn{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .plan-item .pc{color:var(--sub);font-size:11px;flex:none}
+  .plan-item .pdel{margin-left:2px;border:none;background:#f1f0ec;color:#b23;border-radius:6px;width:20px;height:20px;
+                   cursor:pointer;font-size:14px;line-height:1;flex:none}
+  .plan-item .pdel:hover{background:#fdecea}
+  /* ===== 手机查看版：默认全屏周视图（保留选课 DOM，仅隐藏） ===== */
+  .courses,#btnCourses,#btnPreset,#btnSavePlan,#btnReset,#planPanel{display:none!important}
+  main{display:block;padding:8px 10px 14px;max-width:100%}
+  .calendar{width:100%}
+  .cal-wrap{padding:6px 4px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .grid{min-width:600px}
+  .blk{font-size:10.5px;padding:3px 5px}
+  .blk .bcode{font-size:11px}
+  .legend{margin-top:10px;flex-wrap:wrap;gap:12px;font-size:11.5px}
+  .foot{font-size:11px;line-height:1.55}
+  .quick-link{display:inline-block;font-size:12px;color:var(--core);text-decoration:none;margin-left:6px;padding:3px 9px;border:1px solid var(--line);border-radius:7px;background:#fff}
+  @media (min-width:900px){
+    .cal-wrap{overflow-x:visible}
+    .grid{min-width:0}
+  }
+</style>
+</head>
+<body data-page-node-id="XzftzYL5Qu78BAxkHXvBFm">
+<header data-page-node-id="tCW61OuznM2LJBudWNmPxk">
+  <h1>HKU MSc in Marketing 课表 · 2026–27</h1>
+  <div class="counts" data-page-node-id="rEF1ifGnRwlok5fK9eK6Fn">
+    <span class="chip core" data-page-node-id="3BxVZG8zUibSUarzb54xVY">必修 <b id="cCore" data-page-node-id="0Z5eU6yPC6kNJ0Xi5tgBZ1">0</b>/4</span>
+    <span class="chip cap" data-page-node-id="wKzvvPFhJwirrm6wP3zqNz">Capstone <b id="cCap" data-page-node-id="YsEebaX93gp3w0IfoSrCDU">0</b>/1</span>
+    <span class="chip elec" data-page-node-id="2tRDHm5jsKQaNoPJmBTqXO">选修 <b id="cElec" data-page-node-id="yen9l8CV3vB1IYZIWuu34p">0</b>/3</span>
+    <span class="chip" id="cTotalChip" data-page-node-id="FEnvxpuSPQBH9Qj8zYbJ4Z">已选 <b id="cTotal" data-page-node-id="XCczQrRhyEdE2JUrYwzWsu">0</b></span>
+  </div>
+</header>
+
+<main data-page-node-id="Wph5zaP4QEttNaGZEJ4D7G">
+  <section class="courses" id="courseList" data-page-node-id="gmB1D9vXpwcXCiTLIqFuvz"></section>
+
+  <section class="calendar" data-page-node-id="XUmLgWsHUUcNoF5vCEAA5O">
+    <button class="btn-courses" id="btnCourses" data-page-node-id="idBDoBA7UZYOslXmQUcU0e">展开课程列表 · <b data-page-node-id="prOTDMKeRNDLocGXqUTRs2">选课</b></button>
+    <div class="cal-toolbar" data-page-node-id="x4vTFLTG3azeDYmmtfZ4DF">
+      <div class="tabs" id="tabs" data-page-node-id="3qnokzXj4WSjVXFhc97SAb"></div>
+      <a class="quick-link" href="./index.html" target="_blank">完整版（含选课）</a>
+      <div class="cal-btns" data-page-node-id="JMJ2bYeW6bswF79sTZIkK8">
+        <button class="primary" id="btnPreset" data-page-node-id="YhZHKffZmVEw8kTPg3rtxI">一键载入推荐</button>
+        <button id="btnSavePlan" data-page-node-id="JqaGMrk6WTEWtQKB8evNgc">保存方案</button>
+        <button id="btnReset" data-page-node-id="CA4sHqJpqCtCZgE46ryWUz">重置</button>
+      </div>
+    </div>
+    <div class="cal-range" id="calRange" data-page-node-id="RThBFheTbKUfDUXL5z9YbT"></div>
+    <div class="plans" id="planPanel" data-page-node-id="8wIYMRXCl7qqyRfAVoYXEc"></div>
+
+    <div class="weeknav" data-page-node-id="mii3D26sVaEXxI2qPcaiRC">
+      <button id="wkPrev" title="上一周（←）" data-page-node-id="wkXaBAEFP9dhYWxeMcEArD">‹</button>
+      <div class="wklabel" id="wkLabel" data-page-node-id="6Yw8oX2qn2d0edJgjeqpPX"></div>
+      <button id="wkNext" title="下一周（→）" data-page-node-id="ArK7NXpCNtlTY5azyauLDe">›</button>
+    </div>
+    <div class="weekstrip" id="weekStrip" data-page-node-id="1bZrtwN5YeBDVV7BOLg5g1"></div>
+
+    <div class="cal-wrap" data-page-node-id="S0GQOKrGg38XxXTvCVvCj1">
+      <div class="grid" id="calGrid" data-page-node-id="61aASGSM73axZiB0VVyVkc"></div>
+      <div class="empty" id="calEmpty" data-page-node-id="ALhw7SLDA0eNGoRFXzW0W0">点击左侧课程的 A / B / C 班，课表会排到对应日期的周视图里。用上方周条或 ‹ › 滑动查看每一周。</div>
+    </div>
+    <div class="legend" data-page-node-id="qqtTdCYxF7kFINvwUmxBas">
+      <span data-page-node-id="wFOs3MbGT4G0l7EopiCWxg"><i class="dot" style="background:var(--core)" data-page-node-id="sKUoMAaJnKroCGe1JpClur"></i>核心</span>
+      <span data-page-node-id="CiEz4uyOr21GwFS2rzxtG4"><i class="dot" style="background:var(--elec)" data-page-node-id="DPDRVLlwH3eihqywrZ1BYM"></i>选修</span>
+      <span data-page-node-id="EUGAgHwjGF6SEzHlYk90e8"><i class="dot" style="background:var(--cap)" data-page-node-id="91KfdPoxeREnRn0VmqN61h"></i>Capstone</span>
+      <span data-page-node-id="YjSOJtHg6PPoAV8exGNUiL"><i class="dot" style="background:rgba(59,138,59,.4)" data-page-node-id="f6ChQ1OZHcJZ9u2dib29BX"></i>工作日白天（适合实习）</span>
+      <span data-page-node-id="TQDugzLNfPTHRPOdPps9lH"><i class="dot" style="background:#f3c0b8" data-page-node-id="vgRFAh8tVynMXV1OSVnMJC"></i>时间冲突</span>
+    </div>
+    <div class="foot" data-page-node-id="i2IB0SDgHRXURR6ZQTVvYu">
+      按学期分步选：先 <b data-page-node-id="8LkFNWBnlFeUamJ0T8tGAm">学期1</b> → <b data-page-node-id="AHgeclXd3gVbYDGNwABfay">学期2</b> → <b data-page-node-id="DHBG1buh7gKWysTYyzdLvF">下学期</b>。日历按 <b data-page-node-id="HW4DD0Eo3tZMHkT96BzAOx">真实上课日期</b> 排，每周显示周一至周日的实际日期；<b data-page-node-id="A3shwHSp8Y0aLhva1MkWJh">绿色区</b>是工作日白天空闲、可安排实习的时段，某天全空会标「可实习」。<br data-page-node-id="6NY66PAUC2nDwNfuHFsivd">
+      切换学期标签会重置可滑动的周范围；点色块可取消该课。同一门课选了别的班、或同周时间撞车会自动变灰。
+    </div>
+  </section>
+</main>
+
+<div id="toast" data-page-node-id="wQDOTdH013KGOA4GmufWK0"></div>
+
+<script>
+/* ===== 课程数据（由教学计划真实上课日期生成） ===== */
+const SECTIONS = [{"code":"MSMK7001","title":"Marketing Management","type":"Core","g":"m1","mods":[1],"label":"A","venue":"Admiralty ATC-B4","sessions":[{"d":"2026-09-07","s":[[840,1020]]},{"d":"2026-09-10","s":[[840,1020]]},{"d":"2026-09-14","s":[[840,1020]]},{"d":"2026-09-17","s":[[840,1020]]},{"d":"2026-09-21","s":[[840,1020]]},{"d":"2026-09-24","s":[[840,1020]]},{"d":"2026-09-28","s":[[840,1020]]},{"d":"2026-10-05","s":[[840,1020]]},{"d":"2026-10-08","s":[[840,1020]]},{"d":"2026-10-12","s":[[840,1020]]}]},{"code":"MSMK7001","title":"Marketing Management","type":"Core","g":"m1","mods":[1],"label":"B","venue":"Admiralty ATC-B2","sessions":[{"d":"2026-09-07","s":[[1110,1290]]},{"d":"2026-09-10","s":[[1110,1290]]},{"d":"2026-09-14","s":[[1110,1290]]},{"d":"2026-09-17","s":[[1110,1290]]},{"d":"2026-09-21","s":[[1110,1290]]},{"d":"2026-09-23","s":[[1110,1290]]},{"d":"2026-09-30","s":[[1110,1290]]},{"d":"2026-10-05","s":[[1110,1290]]},{"d":"2026-10-08","s":[[1110,1290]]},{"d":"2026-10-12","s":[[1110,1290]]}]},{"code":"MSMK7001","title":"Marketing Management","type":"Core","g":"m1","mods":[1],"label":"C","venue":"Admiralty ATC-B4","sessions":[{"d":"2026-09-07","s":[[1110,1290]]},{"d":"2026-09-10","s":[[1110,1290]]},{"d":"2026-09-14","s":[[1110,1290]]},{"d":"2026-09-17","s":[[1110,1290]]},{"d":"2026-09-21","s":[[1110,1290]]},{"d":"2026-09-28","s":[[1110,1290]]},{"d":"2026-09-30","s":[[1110,1290]]},{"d":"2026-10-07","s":[[1110,1290]]},{"d":"2026-10-08","s":[[1110,1290]]},{"d":"2026-10-12","s":[[1110,1290]]}]},{"code":"MSMK7001","title":"Marketing Management","type":"Core","g":"m1","mods":[1],"label":"D","venue":"Admiralty ATC-B4","sessions":[{"d":"2026-09-08","s":[[840,1020]]},{"d":"2026-09-11","s":[[840,1020]]},{"d":"2026-09-15","s":[[840,1020]]},{"d":"2026-09-18","s":[[840,1020]]},{"d":"2026-09-22","s":[[840,1020]]},{"d":"2026-09-29","s":[[840,1020]]},{"d":"2026-10-02","s":[[840,1020]]},{"d":"2026-10-09","s":[[840,1020]]},{"d":"2026-10-13","s":[[840,1020]]},{"d":"2026-10-16","s":[[840,1020]]}]},{"code":"MSMK7001","title":"Marketing Management","type":"Core","g":"m1","mods":[1],"label":"E","venue":"Admiralty ATC-B4","sessions":[{"d":"2026-09-08","s":[[1110,1290]]},{"d":"2026-09-11","s":[[1110,1290]]},{"d":"2026-09-15","s":[[1110,1290]]},{"d":"2026-09-18","s":[[1110,1290]]},{"d":"2026-09-22","s":[[1110,1290]]},{"d":"2026-09-29","s":[[1110,1290]]},{"d":"2026-10-02","s":[[1110,1290]]},{"d":"2026-10-09","s":[[1110,1290]]},{"d":"2026-10-13","s":[[1110,1290]]},{"d":"2026-10-16","s":[[1110,1290]]}]},{"code":"MSMK7004","title":"Digital Marketing","type":"Core","g":"m1","mods":[1],"label":"A","venue":"Admiralty ATC-B4","sessions":[{"d":"2026-09-07","s":[[570,750]]},{"d":"2026-09-10","s":[[570,750]]},{"d":"2026-09-14","s":[[570,750]]},{"d":"2026-09-17","s":[[570,750]]},{"d":"2026-09-21","s":[[570,750]]},{"d":"2026-09-24","s":[[570,750]]},{"d":"2026-09-28","s":[[570,750]]},{"d":"2026-10-05","s":[[570,750]]},{"d":"2026-10-08","s":[[570,750]]},{"d":"2026-10-12","s":[[570,750]]}]},{"code":"MSMK7004","title":"Digital Marketing","type":"Core","g":"m1","mods":[1],"label":"B","venue":"Admiralty ATC-B2","sessions":[{"d":"2026-09-07","s":[[840,1020]]},{"d":"2026-09-10","s":[[840,1020]]},{"d":"2026-09-14","s":[[840,1020]]},{"d":"2026-09-17","s":[[840,1020]]},{"d":"2026-09-21","s":[[840,1020]]},{"d":"2026-09-24","s":[[840,1020]]},{"d":"2026-09-28","s":[[840,1020]]},{"d":"2026-10-05","s":[[840,1020]]},{"d":"2026-10-08","s":[[840,1020]]},{"d":"2026-10-12","s":[[840,1020]]}]},{"code":"MSMK7004","title":"Digital Marketing","type":"Core","g":"m1","mods":[1],"label":"C","venue":"Admiralty ATC-B4","sessions":[{"d":"2026-09-08","s":[[570,750]]},{"d":"2026-09-11","s":[[570,750]]},{"d":"2026-09-15","s":[[570,750]]},{"d":"2026-09-18","s":[[570,750]]},{"d":"2026-09-22","s":[[570,750]]},{"d":"2026-09-29","s":[[570,750]]},{"d":"2026-10-02","s":[[570,750]]},{"d":"2026-10-06","s":[[570,750]]},{"d":"2026-10-09","s":[[570,750]]},{"d":"2026-10-13","s":[[570,750]]}]},{"code":"MSMK7004","title":"Digital Marketing","type":"Core","g":"m1","mods":[1],"label":"D","venue":"Admiralty ATC-B2","sessions":[{"d":"2026-09-08","s":[[840,1020]]},{"d":"2026-09-11","s":[[840,1020]]},{"d":"2026-09-15","s":[[840,1020]]},{"d":"2026-09-18","s":[[840,1020]]},{"d":"2026-09-22","s":[[840,1020]]},{"d":"2026-09-29","s":[[840,1020]]},{"d":"2026-10-02","s":[[840,1020]]},{"d":"2026-10-06","s":[[840,1020]]},{"d":"2026-10-09","s":[[840,1020]]},{"d":"2026-10-13","s":[[840,1020]]}]},{"code":"MSMK7004","title":"Digital Marketing","type":"Core","g":"m1","mods":[1],"label":"E","venue":"Admiralty ATC-B4","sessions":[{"d":"2026-09-09","s":[[570,750]]},{"d":"2026-09-12","s":[[570,750]]},{"d":"2026-09-16","s":[[570,750]]},{"d":"2026-09-19","s":[[570,750]]},{"d":"2026-09-23","s":[[570,750]]},{"d":"2026-09-30","s":[[570,750]]},{"d":"2026-10-03","s":[[570,750]]},{"d":"2026-10-07","s":[[570,750]]},{"d":"2026-10-10","s":[[570,750]]},{"d":"2026-10-14","s":[[570,750]]}]},{"code":"MSMK7013","title":"Branding Strategy","type":"Elective","g":"m2","mods":[2],"label":"A","venue":"Admiralty & Cyberport","sessions":[{"d":"2026-10-25","s":[[570,750]]},{"d":"2026-10-25","s":[[840,1020]]},{"d":"2026-11-01","s":[[570,750]]},{"d":"2026-11-01","s":[[840,1020]]},{"d":"2026-11-08","s":[[570,750]]},{"d":"2026-11-08","s":[[840,1020]]},{"d":"2026-11-15","s":[[570,750]]},{"d":"2026-11-15","s":[[840,1020]]},{"d":"2026-11-22","s":[[570,750]]},{"d":"2026-11-22","s":[[840,1020]]}]},{"code":"MSMK7013","title":"Branding Strategy","type":"Elective","g":"m2","mods":[2],"label":"B","venue":"Admiralty","sessions":[{"d":"2026-10-23","s":[[840,1020]]},{"d":"2026-10-27","s":[[840,1020]]},{"d":"2026-10-30","s":[[840,1020]]},{"d":"2026-11-03","s":[[840,1020]]},{"d":"2026-11-06","s":[[840,1020]]},{"d":"2026-11-10","s":[[840,1020]]},{"d":"2026-11-13","s":[[840,1020]]},{"d":"2026-11-17","s":[[840,1020]]},{"d":"2026-11-20","s":[[840,1020]]},{"d":"2026-11-24","s":[[840,1020]]}]},{"code":"MSMK7013","title":"Branding Strategy","type":"Elective","g":"m2","mods":[2],"label":"C","venue":"Admiralty","sessions":[{"d":"2026-10-23","s":[[1110,1290]]},{"d":"2026-10-27","s":[[1110,1290]]},{"d":"2026-10-30","s":[[1110,1290]]},{"d":"2026-11-03","s":[[1110,1290]]},{"d":"2026-11-06","s":[[1110,1290]]},{"d":"2026-11-10","s":[[1110,1290]]},{"d":"2026-11-13","s":[[1110,1290]]},{"d":"2026-11-17","s":[[1110,1290]]},{"d":"2026-11-20","s":[[1110,1290]]},{"d":"2026-11-24","s":[[1110,1290]]}]},{"code":"MSMK7019","title":"Entrepreneurial Marketing","type":"Elective","g":"m2","mods":[2],"label":"A","venue":"Admiralty & Cyberport","sessions":[{"d":"2026-10-25","s":[[570,750]]},{"d":"2026-10-25","s":[[840,1020]]},{"d":"2026-11-01","s":[[570,750]]},{"d":"2026-11-01","s":[[840,1020]]},{"d":"2026-11-08","s":[[570,750]]},{"d":"2026-11-08","s":[[840,1020]]},{"d":"2026-11-15","s":[[570,750]]},{"d":"2026-11-15","s":[[840,1020]]},{"d":"2026-11-22","s":[[570,750]]},{"d":"2026-11-22","s":[[840,1020]]}]},{"code":"MSMK7019","title":"Entrepreneurial Marketing","type":"Elective","g":"m2","mods":[2],"label":"B","venue":"Admiralty","sessions":[{"d":"2026-10-22","s":[[570,750]]},{"d":"2026-10-26","s":[[570,750]]},{"d":"2026-10-29","s":[[570,750]]},{"d":"2026-11-02","s":[[570,750]]},{"d":"2026-11-05","s":[[570,750]]},{"d":"2026-11-09","s":[[570,750]]},{"d":"2026-11-12","s":[[570,750]]},{"d":"2026-11-16","s":[[570,750]]},{"d":"2026-11-19","s":[[570,750]]},{"d":"2026-11-23","s":[[570,750]]}]},{"code":"MSMK7019","title":"Entrepreneurial Marketing","type":"Elective","g":"m2","mods":[2],"label":"C","venue":"Admiralty","sessions":[{"d":"2026-10-22","s":[[840,1020]]},{"d":"2026-10-26","s":[[840,1020]]},{"d":"2026-10-29","s":[[840,1020]]},{"d":"2026-11-02","s":[[840,1020]]},{"d":"2026-11-05","s":[[840,1020]]},{"d":"2026-11-09","s":[[840,1020]]},{"d":"2026-11-12","s":[[840,1020]]},{"d":"2026-11-16","s":[[840,1020]]},{"d":"2026-11-19","s":[[840,1020]]},{"d":"2026-11-23","s":[[840,1020]]}]},{"code":"MSMK7022","title":"Technology Innovations in Retail Banking","type":"Elective","g":"m2","mods":[2],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-10-23","s":[[570,750]]},{"d":"2026-10-27","s":[[570,750]]},{"d":"2026-10-30","s":[[570,750]]},{"d":"2026-11-03","s":[[570,750]]},{"d":"2026-11-06","s":[[570,750]]},{"d":"2026-11-10","s":[[570,750]]},{"d":"2026-11-13","s":[[570,750]]},{"d":"2026-11-17","s":[[570,750]]},{"d":"2026-11-20","s":[[570,750]]},{"d":"2026-11-24","s":[[570,750]]}]},{"code":"MSMK7023","title":"Customer Management","type":"Elective","g":"m2","mods":[2],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-10-22","s":[[570,750]]},{"d":"2026-10-26","s":[[570,750]]},{"d":"2026-10-29","s":[[570,750]]},{"d":"2026-11-02","s":[[570,750]]},{"d":"2026-11-05","s":[[570,750]]},{"d":"2026-11-09","s":[[570,750]]},{"d":"2026-11-12","s":[[570,750]]},{"d":"2026-11-16","s":[[570,750]]},{"d":"2026-11-19","s":[[570,750]]},{"d":"2026-11-23","s":[[570,750]]}]},{"code":"MSMK7029","title":"Platform Business Models and the Sharing Economy","type":"Elective","g":"m2","mods":[2],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-10-22","s":[[840,1020]]},{"d":"2026-10-26","s":[[840,1020]]},{"d":"2026-10-29","s":[[840,1020]]},{"d":"2026-11-02","s":[[840,1020]]},{"d":"2026-11-05","s":[[840,1020]]},{"d":"2026-11-09","s":[[840,1020]]},{"d":"2026-11-12","s":[[840,1020]]},{"d":"2026-11-16","s":[[840,1020]]},{"d":"2026-11-19","s":[[840,1020]]},{"d":"2026-11-23","s":[[840,1020]]}]},{"code":"MSMK7029","title":"Platform Business Models and the Sharing Economy","type":"Elective","g":"m2","mods":[2],"label":"B","venue":"Admiralty","sessions":[{"d":"2026-10-22","s":[[1110,1290]]},{"d":"2026-10-26","s":[[1110,1290]]},{"d":"2026-10-29","s":[[1110,1290]]},{"d":"2026-11-02","s":[[1110,1290]]},{"d":"2026-11-05","s":[[1110,1290]]},{"d":"2026-11-09","s":[[1110,1290]]},{"d":"2026-11-12","s":[[1110,1290]]},{"d":"2026-11-16","s":[[1110,1290]]},{"d":"2026-11-19","s":[[1110,1290]]},{"d":"2026-11-23","s":[[1110,1290]]}]},{"code":"MSMK7032","title":"Foundational Quantitative Skills in Marketing","type":"Elective","g":"m2","mods":[2],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-10-23","s":[[570,750]]},{"d":"2026-10-27","s":[[570,750]]},{"d":"2026-10-30","s":[[570,750]]},{"d":"2026-11-03","s":[[570,750]]},{"d":"2026-11-06","s":[[570,750]]},{"d":"2026-11-10","s":[[570,750]]},{"d":"2026-11-13","s":[[570,750]]},{"d":"2026-11-17","s":[[570,750]]},{"d":"2026-11-20","s":[[570,750]]},{"d":"2026-11-24","s":[[570,750]]}]},{"code":"MSMK7034","title":"A/B Testing in Product Management","type":"Elective","g":"m2","mods":[2],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-10-23","s":[[840,1020]]},{"d":"2026-10-27","s":[[840,1020]]},{"d":"2026-10-30","s":[[840,1020]]},{"d":"2026-11-03","s":[[840,1020]]},{"d":"2026-11-06","s":[[840,1020]]},{"d":"2026-11-10","s":[[840,1020]]},{"d":"2026-11-13","s":[[840,1020]]},{"d":"2026-11-17","s":[[840,1020]]},{"d":"2026-11-20","s":[[840,1020]]},{"d":"2026-11-24","s":[[840,1020]]}]},{"code":"MSMK7044","title":"AI in Marketing","type":"Elective","g":"m2","mods":[2],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-10-24","s":[[1110,1290]]},{"d":"2026-10-28","s":[[1110,1290]]},{"d":"2026-10-31","s":[[1110,1290]]},{"d":"2026-11-04","s":[[1110,1290]]},{"d":"2026-11-07","s":[[1110,1290]]},{"d":"2026-11-11","s":[[1110,1290]]},{"d":"2026-11-14","s":[[1110,1290]]},{"d":"2026-11-18","s":[[1110,1290]]},{"d":"2026-11-21","s":[[1110,1290]]},{"d":"2026-11-25","s":[[1110,1290]]}]},{"code":"MSMK7011","title":"Service Marketing and Management","type":"Elective","g":"m3","mods":[3],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-12-02","s":[[570,750]]},{"d":"2026-12-05","s":[[570,750]]},{"d":"2026-12-09","s":[[570,750]]},{"d":"2026-12-12","s":[[570,750]]},{"d":"2026-12-16","s":[[570,750]]},{"d":"2026-12-19","s":[[570,750]]},{"d":"2027-01-02","s":[[570,750]]},{"d":"2027-01-06","s":[[570,750]]},{"d":"2027-01-09","s":[[570,750]]},{"d":"2027-01-13","s":[[570,750]]}]},{"code":"MSMK7011","title":"Service Marketing and Management","type":"Elective","g":"m3","mods":[3],"label":"B","venue":"Admiralty","sessions":[{"d":"2026-12-02","s":[[840,1020]]},{"d":"2026-12-05","s":[[840,1020]]},{"d":"2026-12-09","s":[[840,1020]]},{"d":"2026-12-12","s":[[840,1020]]},{"d":"2026-12-16","s":[[840,1020]]},{"d":"2026-12-19","s":[[840,1020]]},{"d":"2027-01-02","s":[[840,1020]]},{"d":"2027-01-06","s":[[840,1020]]},{"d":"2027-01-09","s":[[840,1020]]},{"d":"2027-01-13","s":[[840,1020]]}]},{"code":"MSMK7015","title":"Advertising and Integrated Marketing Communications","type":"Elective","g":"m3","mods":[3],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-12-01","s":[[570,750]]},{"d":"2026-12-04","s":[[570,750]]},{"d":"2026-12-08","s":[[570,750]]},{"d":"2026-12-11","s":[[570,750]]},{"d":"2026-12-15","s":[[570,750]]},{"d":"2026-12-18","s":[[570,750]]},{"d":"2027-01-05","s":[[570,750]]},{"d":"2027-01-08","s":[[570,750]]},{"d":"2027-01-12","s":[[570,750]]},{"d":"2027-01-15","s":[[570,750]]}]},{"code":"MSMK7015","title":"Advertising and Integrated Marketing Communications","type":"Elective","g":"m3","mods":[3],"label":"B","venue":"Admiralty","sessions":[{"d":"2026-12-01","s":[[840,1020]]},{"d":"2026-12-04","s":[[840,1020]]},{"d":"2026-12-08","s":[[840,1020]]},{"d":"2026-12-11","s":[[840,1020]]},{"d":"2026-12-15","s":[[840,1020]]},{"d":"2026-12-18","s":[[840,1020]]},{"d":"2027-01-05","s":[[840,1020]]},{"d":"2027-01-08","s":[[840,1020]]},{"d":"2027-01-12","s":[[840,1020]]},{"d":"2027-01-15","s":[[840,1020]]}]},{"code":"MSMK7024","title":"ESG and Marketing for Social Impact","type":"Elective","g":"m3","mods":[3],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-12-03","s":[[570,750]]},{"d":"2026-12-07","s":[[570,750]]},{"d":"2026-12-10","s":[[570,750]]},{"d":"2026-12-14","s":[[570,750]]},{"d":"2026-12-17","s":[[570,750]]},{"d":"2026-12-21","s":[[570,750]]},{"d":"2027-01-04","s":[[570,750]]},{"d":"2027-01-07","s":[[570,750]]},{"d":"2027-01-11","s":[[570,750]]},{"d":"2027-01-14","s":[[570,750]]}]},{"code":"MSMK7025","title":"AI, Algorithms, and Online Markets","type":"Elective","g":"m3","mods":[3],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-12-03","s":[[840,1020]]},{"d":"2026-12-07","s":[[840,1020]]},{"d":"2026-12-10","s":[[840,1020]]},{"d":"2026-12-14","s":[[840,1020]]},{"d":"2026-12-17","s":[[840,1020]]},{"d":"2026-12-21","s":[[840,1020]]},{"d":"2027-01-04","s":[[840,1020]]},{"d":"2027-01-07","s":[[840,1020]]},{"d":"2027-01-11","s":[[840,1020]]},{"d":"2027-01-14","s":[[840,1020]]}]},{"code":"MSMK7025","title":"AI, Algorithms, and Online Markets","type":"Elective","g":"m3","mods":[3],"label":"B","venue":"Admiralty","sessions":[{"d":"2026-12-03","s":[[1110,1290]]},{"d":"2026-12-07","s":[[1110,1290]]},{"d":"2026-12-10","s":[[1110,1290]]},{"d":"2026-12-14","s":[[1110,1290]]},{"d":"2026-12-17","s":[[1110,1290]]},{"d":"2026-12-21","s":[[1110,1290]]},{"d":"2027-01-04","s":[[1110,1290]]},{"d":"2027-01-07","s":[[1110,1290]]},{"d":"2027-01-11","s":[[1110,1290]]},{"d":"2027-01-14","s":[[1110,1290]]}]},{"code":"MSMK7025","title":"AI, Algorithms, and Online Markets","type":"Elective","g":"m3","mods":[3],"label":"C","venue":"Admiralty","sessions":[{"d":"2026-12-01","s":[[1110,1290]]},{"d":"2026-12-04","s":[[1110,1290]]},{"d":"2026-12-08","s":[[1110,1290]]},{"d":"2026-12-11","s":[[1110,1290]]},{"d":"2026-12-15","s":[[1110,1290]]},{"d":"2026-12-18","s":[[1110,1290]]},{"d":"2027-01-05","s":[[1110,1290]]},{"d":"2027-01-08","s":[[1110,1290]]},{"d":"2027-01-12","s":[[1110,1290]]},{"d":"2027-01-15","s":[[1110,1290]]}]},{"code":"MSMK7026","title":"Data and AI Transformation","type":"Elective","g":"m3","mods":[3],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-12-02","s":[[1110,1290]]},{"d":"2026-12-05","s":[[1110,1290]]},{"d":"2026-12-09","s":[[1110,1290]]},{"d":"2026-12-12","s":[[1110,1290]]},{"d":"2026-12-16","s":[[1110,1290]]},{"d":"2026-12-19","s":[[1110,1290]]},{"d":"2027-01-06","s":[[1110,1290]]},{"d":"2027-01-09","s":[[1110,1290]]},{"d":"2027-01-13","s":[[1110,1290]]},{"d":"2027-01-16","s":[[1110,1290]]}]},{"code":"MSMK7028","title":"Business Simulation (co-listed with MScBA)","type":"Elective","g":"m3","mods":[3],"label":"A","venue":"Cyberport","sessions":[{"d":"2026-12-02","s":[[1110,1290]]},{"d":"2026-12-05","s":[[1110,1290]]},{"d":"2026-12-09","s":[[1110,1290]]},{"d":"2026-12-12","s":[[1110,1290]]},{"d":"2026-12-16","s":[[1110,1290]]},{"d":"2026-12-19","s":[[1110,1290]]},{"d":"2027-01-02","s":[[1110,1290]]},{"d":"2027-01-06","s":[[1110,1290]]},{"d":"2027-01-09","s":[[1110,1290]]},{"d":"2027-01-13","s":[[1110,1290]]}]},{"code":"MSMK7031","title":"Pricing Strategies and Tactics","type":"Elective","g":"m3","mods":[3],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-12-03","s":[[570,750]]},{"d":"2026-12-07","s":[[570,750]]},{"d":"2026-12-10","s":[[570,750]]},{"d":"2026-12-14","s":[[570,750]]},{"d":"2026-12-17","s":[[570,750]]},{"d":"2026-12-21","s":[[570,750]]},{"d":"2027-01-04","s":[[570,750]]},{"d":"2027-01-07","s":[[570,750]]},{"d":"2027-01-11","s":[[570,750]]},{"d":"2027-01-14","s":[[570,750]]}]},{"code":"MSMK7031","title":"Pricing Strategies and Tactics","type":"Elective","g":"m3","mods":[3],"label":"B","venue":"Admiralty","sessions":[{"d":"2026-12-03","s":[[840,1020]]},{"d":"2026-12-07","s":[[840,1020]]},{"d":"2026-12-10","s":[[840,1020]]},{"d":"2026-12-14","s":[[840,1020]]},{"d":"2026-12-17","s":[[840,1020]]},{"d":"2026-12-21","s":[[840,1020]]},{"d":"2027-01-04","s":[[840,1020]]},{"d":"2027-01-07","s":[[840,1020]]},{"d":"2027-01-11","s":[[840,1020]]},{"d":"2027-01-14","s":[[840,1020]]}]},{"code":"MSMK7037","title":"Corporate Communications","type":"Elective","g":"m3","mods":[3],"label":"A","venue":"Admiralty","sessions":[{"d":"2026-12-01","s":[[1110,1290]]},{"d":"2026-12-04","s":[[1110,1290]]},{"d":"2026-12-08","s":[[1110,1290]]},{"d":"2026-12-11","s":[[1110,1290]]},{"d":"2026-12-15","s":[[1110,1290]]},{"d":"2026-12-18","s":[[1110,1290]]},{"d":"2027-01-05","s":[[1110,1290]]},{"d":"2027-01-08","s":[[1110,1290]]},{"d":"2027-01-12","s":[[1110,1290]]},{"d":"2027-01-15","s":[[1110,1290]]}]},{"code":"MSMK7002","title":"Consumer Insights","type":"Core","g":"m4","mods":[4],"label":"A","venue":"Admiralty","sessions":[{"d":"2027-01-25","s":[[570,750]]},{"d":"2027-01-28","s":[[570,750]]},{"d":"2027-02-01","s":[[570,750]]},{"d":"2027-02-11","s":[[570,750]]},{"d":"2027-02-15","s":[[570,750]]},{"d":"2027-02-18","s":[[570,750]]},{"d":"2027-02-22","s":[[570,750]]},{"d":"2027-02-25","s":[[570,750]]},{"d":"2027-03-01","s":[[570,750]]},{"d":"2027-03-04","s":[[570,750]]}]},{"code":"MSMK7002","title":"Consumer Insights","type":"Core","g":"m4","mods":[4],"label":"B","venue":"Admiralty","sessions":[{"d":"2027-01-22","s":[[570,750]]},{"d":"2027-01-26","s":[[570,750]]},{"d":"2027-01-29","s":[[570,750]]},{"d":"2027-02-02","s":[[570,750]]},{"d":"2027-02-12","s":[[570,750]]},{"d":"2027-02-16","s":[[570,750]]},{"d":"2027-02-19","s":[[570,750]]},{"d":"2027-02-23","s":[[570,750]]},{"d":"2027-02-26","s":[[570,750]]},{"d":"2027-03-02","s":[[570,750]]}]},{"code":"MSMK7002","title":"Consumer Insights","type":"Core","g":"m4","mods":[4],"label":"C","venue":"Admiralty","sessions":[{"d":"2027-01-22","s":[[840,1020]]},{"d":"2027-01-26","s":[[840,1020]]},{"d":"2027-01-29","s":[[840,1020]]},{"d":"2027-02-02","s":[[840,1020]]},{"d":"2027-02-12","s":[[840,1020]]},{"d":"2027-02-16","s":[[840,1020]]},{"d":"2027-02-19","s":[[840,1020]]},{"d":"2027-02-23","s":[[840,1020]]},{"d":"2027-02-26","s":[[840,1020]]},{"d":"2027-03-02","s":[[840,1020]]}]},{"code":"MSMK7002","title":"Consumer Insights","type":"Core","g":"m4","mods":[4],"label":"D","venue":"Admiralty","sessions":[{"d":"2027-01-25","s":[[840,1020]]},{"d":"2027-01-28","s":[[840,1020]]},{"d":"2027-02-01","s":[[840,1020]]},{"d":"2027-02-11","s":[[840,1020]]},{"d":"2027-02-18","s":[[840,1020]]},{"d":"2027-02-22","s":[[840,1020]]},{"d":"2027-02-25","s":[[840,1020]]},{"d":"2027-03-01","s":[[840,1020]]},{"d":"2027-03-04","s":[[840,1020]]},{"d":"2027-03-08","s":[[840,1020]]}]},{"code":"MSMK7002","title":"Consumer Insights","type":"Core","g":"m4","mods":[4],"label":"E","venue":"Admiralty","sessions":[{"d":"2027-01-25","s":[[1110,1290]]},{"d":"2027-01-28","s":[[1110,1290]]},{"d":"2027-02-01","s":[[1110,1290]]},{"d":"2027-02-11","s":[[1110,1290]]},{"d":"2027-02-18","s":[[1110,1290]]},{"d":"2027-02-22","s":[[1110,1290]]},{"d":"2027-02-25","s":[[1110,1290]]},{"d":"2027-03-01","s":[[1110,1290]]},{"d":"2027-03-04","s":[[1110,1290]]},{"d":"2027-03-08","s":[[1110,1290]]}]},{"code":"MSMK7003","title":"Applied Marketing Research and Metrics","type":"Core","g":"m4","mods":[4],"label":"A","venue":"Admiralty","sessions":[{"d":"2027-01-25","s":[[570,750]]},{"d":"2027-01-28","s":[[570,750]]},{"d":"2027-02-01","s":[[570,750]]},{"d":"2027-02-11","s":[[570,750]]},{"d":"2027-02-15","s":[[570,750]]},{"d":"2027-02-18","s":[[570,750]]},{"d":"2027-02-22","s":[[570,750]]},{"d":"2027-02-25","s":[[570,750]]},{"d":"2027-03-01","s":[[570,750]]},{"d":"2027-03-04","s":[[570,750]]}]},{"code":"MSMK7003","title":"Applied Marketing Research and Metrics","type":"Core","g":"m4","mods":[4],"label":"B","venue":"Admiralty","sessions":[{"d":"2027-01-25","s":[[840,1020]]},{"d":"2027-01-28","s":[[840,1020]]},{"d":"2027-02-01","s":[[840,1020]]},{"d":"2027-02-11","s":[[840,1020]]},{"d":"2027-02-15","s":[[840,1020]]},{"d":"2027-02-18","s":[[840,1020]]},{"d":"2027-02-22","s":[[840,1020]]},{"d":"2027-02-25","s":[[840,1020]]},{"d":"2027-03-01","s":[[840,1020]]},{"d":"2027-03-04","s":[[840,1020]]}]},{"code":"MSMK7003","title":"Applied Marketing Research and Metrics","type":"Core","g":"m4","mods":[4],"label":"C","venue":"Admiralty","sessions":[{"d":"2027-01-22","s":[[570,750]]},{"d":"2027-01-26","s":[[570,750]]},{"d":"2027-01-29","s":[[570,750]]},{"d":"2027-02-02","s":[[570,750]]},{"d":"2027-02-12","s":[[570,750]]},{"d":"2027-02-16","s":[[570,750]]},{"d":"2027-02-19","s":[[570,750]]},{"d":"2027-02-23","s":[[570,750]]},{"d":"2027-02-26","s":[[570,750]]},{"d":"2027-03-02","s":[[570,750]]}]},{"code":"MSMK7003","title":"Applied Marketing Research and Metrics","type":"Core","g":"m4","mods":[4],"label":"D","venue":"Admiralty","sessions":[{"d":"2027-01-22","s":[[840,1020]]},{"d":"2027-01-26","s":[[840,1020]]},{"d":"2027-01-29","s":[[840,1020]]},{"d":"2027-02-02","s":[[840,1020]]},{"d":"2027-02-12","s":[[840,1020]]},{"d":"2027-02-16","s":[[840,1020]]},{"d":"2027-02-19","s":[[840,1020]]},{"d":"2027-02-23","s":[[840,1020]]},{"d":"2027-02-26","s":[[840,1020]]},{"d":"2027-03-02","s":[[840,1020]]}]},{"code":"MSMK7003","title":"Applied Marketing Research and Metrics","type":"Core","g":"m4","mods":[4],"label":"E","venue":"Admiralty","sessions":[{"d":"2027-01-23","s":[[570,750]]},{"d":"2027-01-27","s":[[570,750]]},{"d":"2027-01-30","s":[[570,750]]},{"d":"2027-02-03","s":[[570,750]]},{"d":"2027-02-13","s":[[570,750]]},{"d":"2027-02-17","s":[[570,750]]},{"d":"2027-02-20","s":[[570,750]]},{"d":"2027-02-24","s":[[570,750]]},{"d":"2027-02-27","s":[[570,750]]},{"d":"2027-03-03","s":[[570,750]]}]},{"code":"MSMK7027","title":"The Political Economy of Global Business (co-listed with MGM & MECON)","type":"Elective","g":"m4","mods":[4],"label":"A","venue":"Cyberport","sessions":[{"d":"2027-01-25","s":[[570,750]]},{"d":"2027-01-28","s":[[570,750]]},{"d":"2027-02-01","s":[[570,750]]},{"d":"2027-02-11","s":[[570,750]]},{"d":"2027-02-15","s":[[570,750]]},{"d":"2027-02-18","s":[[570,750]]},{"d":"2027-02-22","s":[[570,750]]},{"d":"2027-02-25","s":[[570,750]]},{"d":"2027-03-01","s":[[570,750]]},{"d":"2027-03-04","s":[[570,750]]}]},{"code":"MSMK7041","title":"Artificial Intelligence Generated Content (co-listed with MScBA & MFin)","type":"Elective","g":"m4","mods":[4],"label":"A","venue":"Cyberport","sessions":[{"d":"2027-01-23","s":[[570,750]]},{"d":"2027-01-27","s":[[570,750]]},{"d":"2027-01-30","s":[[570,750]]},{"d":"2027-02-03","s":[[570,750]]},{"d":"2027-02-13","s":[[570,750]]},{"d":"2027-02-17","s":[[570,750]]},{"d":"2027-02-20","s":[[570,750]]},{"d":"2027-02-24","s":[[570,750]]},{"d":"2027-02-27","s":[[570,750]]},{"d":"2027-03-03","s":[[570,750]]}]},{"code":"MSMK7045","title":"Retail-Driven Marketing Innovation","type":"Elective","g":"m4","mods":[4],"label":"A","venue":"Admiralty & Cyberport","sessions":[{"d":"2027-01-23","s":[[570,750]]},{"d":"2027-01-27","s":[[570,750]]},{"d":"2027-01-30","s":[[570,750]]},{"d":"2027-02-03","s":[[570,750]]},{"d":"2027-02-13","s":[[570,750]]},{"d":"2027-02-20","s":[[570,750]]},{"d":"2027-02-24","s":[[570,750]]},{"d":"2027-02-27","s":[[570,750]]},{"d":"2027-03-03","s":[[570,750]]},{"d":"2027-03-06","s":[[570,750]]}]},{"code":"MSMK7005","title":"Marketing Strategy Simulation","type":"Capstone","g":"m5","mods":[5],"label":"A","venue":"Admiralty","sessions":[{"d":"2027-03-22","s":[[570,750]]},{"d":"2027-03-22","s":[[840,1020]]},{"d":"2027-04-12","s":[[570,750]]},{"d":"2027-04-12","s":[[840,1020]]},{"d":"2027-04-19","s":[[570,750]]},{"d":"2027-04-19","s":[[840,1020]]},{"d":"2027-04-26","s":[[570,750]]},{"d":"2027-04-26","s":[[840,1020]]},{"d":"2027-05-03","s":[[570,750]]},{"d":"2027-05-03","s":[[840,1020]]}]},{"code":"MSMK7005","title":"Marketing Strategy Simulation","type":"Capstone","g":"m5","mods":[5],"label":"B","venue":"Admiralty","sessions":[{"d":"2027-03-23","s":[[570,750]]},{"d":"2027-03-23","s":[[840,1020]]},{"d":"2027-03-30","s":[[570,750]]},{"d":"2027-03-30","s":[[840,1020]]},{"d":"2027-04-06","s":[[570,750]]},{"d":"2027-04-06","s":[[840,1020]]},{"d":"2027-04-13","s":[[570,750]]},{"d":"2027-04-13","s":[[840,1020]]},{"d":"2027-04-20","s":[[570,750]]},{"d":"2027-04-20","s":[[840,1020]]}]},{"code":"MSMK7005","title":"Marketing Strategy Simulation","type":"Capstone","g":"m5","mods":[5],"label":"C","venue":"Admiralty","sessions":[{"d":"2027-03-24","s":[[570,750]]},{"d":"2027-03-24","s":[[840,1020]]},{"d":"2027-03-31","s":[[570,750]]},{"d":"2027-03-31","s":[[840,1020]]},{"d":"2027-04-07","s":[[570,750]]},{"d":"2027-04-07","s":[[840,1020]]},{"d":"2027-04-14","s":[[570,750]]},{"d":"2027-04-14","s":[[840,1020]]},{"d":"2027-04-21","s":[[570,750]]},{"d":"2027-04-21","s":[[840,1020]]}]},{"code":"MSMK7005","title":"Marketing Strategy Simulation","type":"Capstone","g":"m5","mods":[5],"label":"D","venue":"Admiralty","sessions":[{"d":"2027-03-18","s":[[570,750]]},{"d":"2027-03-18","s":[[840,1020]]},{"d":"2027-03-25","s":[[570,750]]},{"d":"2027-03-25","s":[[840,1020]]},{"d":"2027-04-01","s":[[570,750]]},{"d":"2027-04-01","s":[[840,1020]]},{"d":"2027-04-08","s":[[570,750]]},{"d":"2027-04-08","s":[[840,1020]]},{"d":"2027-04-15","s":[[570,750]]},{"d":"2027-04-15","s":[[840,1020]]}]},{"code":"MSMK7005","title":"Marketing Strategy Simulation","type":"Capstone","g":"m5","mods":[5],"label":"E","venue":"Admiralty","sessions":[{"d":"2027-03-19","s":[[570,750]]},{"d":"2027-03-19","s":[[840,1020]]},{"d":"2027-04-02","s":[[570,750]]},{"d":"2027-04-02","s":[[840,1020]]},{"d":"2027-04-09","s":[[570,750]]},{"d":"2027-04-09","s":[[840,1020]]},{"d":"2027-04-16","s":[[570,750]]},{"d":"2027-04-16","s":[[840,1020]]},{"d":"2027-04-23","s":[[570,750]]},{"d":"2027-04-23","s":[[840,1020]]}]},{"code":"MSMK7016","title":"Global Marketing","type":"Elective","g":"m5","mods":[5],"label":"A","venue":"Cyberport","sessions":[{"d":"2027-03-21","s":[[570,750]]},{"d":"2027-03-21","s":[[840,1020]]},{"d":"2027-04-04","s":[[570,750]]},{"d":"2027-04-04","s":[[840,1020]]},{"d":"2027-04-11","s":[[570,750]]},{"d":"2027-04-11","s":[[840,1020]]},{"d":"2027-04-18","s":[[570,750]]},{"d":"2027-04-18","s":[[840,1020]]},{"d":"2027-05-02","s":[[570,750]]},{"d":"2027-05-02","s":[[840,1020]]}]},{"code":"MSMK7016","title":"Global Marketing","type":"Elective","g":"m5","mods":[5],"label":"B","venue":"Admiralty","sessions":[{"d":"2027-03-18","s":[[840,1020]]},{"d":"2027-03-22","s":[[840,1020]]},{"d":"2027-03-25","s":[[840,1020]]},{"d":"2027-04-01","s":[[840,1020]]},{"d":"2027-04-08","s":[[840,1020]]},{"d":"2027-04-12","s":[[840,1020]]},{"d":"2027-04-15","s":[[840,1020]]},{"d":"2027-04-19","s":[[840,1020]]},{"d":"2027-04-22","s":[[840,1020]]},{"d":"2027-04-26","s":[[840,1020]]}]},{"code":"MSMK7016","title":"Global Marketing","type":"Elective","g":"m5","mods":[5],"label":"C","venue":"Admiralty","sessions":[{"d":"2027-03-18","s":[[1110,1290]]},{"d":"2027-03-22","s":[[1110,1290]]},{"d":"2027-03-25","s":[[1110,1290]]},{"d":"2027-04-01","s":[[1110,1290]]},{"d":"2027-04-08","s":[[1110,1290]]},{"d":"2027-04-12","s":[[1110,1290]]},{"d":"2027-04-15","s":[[1110,1290]]},{"d":"2027-04-19","s":[[1110,1290]]},{"d":"2027-04-22","s":[[1110,1290]]},{"d":"2027-04-26","s":[[1110,1290]]}]},{"code":"MSMK7021","title":"Big Data Consumer Analytics","type":"Elective","g":"m5","mods":[5],"label":"A","venue":"Admiralty","sessions":[{"d":"2027-03-19","s":[[570,750]]},{"d":"2027-03-23","s":[[570,750]]},{"d":"2027-03-30","s":[[570,750]]},{"d":"2027-04-02","s":[[570,750]]},{"d":"2027-04-06","s":[[570,750]]},{"d":"2027-04-09","s":[[570,750]]},{"d":"2027-04-13","s":[[570,750]]},{"d":"2027-04-16","s":[[570,750]]},{"d":"2027-04-20","s":[[570,750]]},{"d":"2027-04-23","s":[[570,750]]}]},{"code":"MSMK7035","title":"Python for Business Analytics","type":"Elective","g":"m5","mods":[5],"label":"A","venue":"Admiralty","sessions":[{"d":"2027-03-18","s":[[570,750]]},{"d":"2027-03-22","s":[[570,750]]},{"d":"2027-03-25","s":[[570,750]]},{"d":"2027-04-01","s":[[570,750]]},{"d":"2027-04-08","s":[[570,750]]},{"d":"2027-04-12","s":[[570,750]]},{"d":"2027-04-15","s":[[570,750]]},{"d":"2027-04-19","s":[[570,750]]},{"d":"2027-04-22","s":[[570,750]]},{"d":"2027-04-26","s":[[570,750]]}]},{"code":"MSMK7042","title":"Sports Marketing and Business Collaboration","type":"Elective","g":"m5","mods":[5],"label":"A","venue":"Admiralty","sessions":[{"d":"2027-03-19","s":[[840,1020]]},{"d":"2027-03-23","s":[[840,1020]]},{"d":"2027-03-30","s":[[840,1020]]},{"d":"2027-04-02","s":[[840,1020]]},{"d":"2027-04-06","s":[[840,1020]]},{"d":"2027-04-09","s":[[840,1020]]},{"d":"2027-04-13","s":[[840,1020]]},{"d":"2027-04-16","s":[[840,1020]]},{"d":"2027-04-20","s":[[840,1020]]},{"d":"2027-04-23","s":[[840,1020]]}]},{"code":"MSMK7012","title":"New Product Strategies","type":"Elective","g":"m6","mods":[6],"label":"A","venue":"Admiralty","sessions":[{"d":"2027-05-17","s":[[570,750]]},{"d":"2027-05-17","s":[[810,1080]]},{"d":"2027-05-18","s":[[570,750]]},{"d":"2027-05-18","s":[[810,1080]]},{"d":"2027-05-21","s":[[570,750]]},{"d":"2027-05-21","s":[[810,1080]]},{"d":"2027-05-22","s":[[570,750]]},{"d":"2027-05-22","s":[[810,1080]]}]},{"code":"MSMK7043","title":"Marketing in Entertainment Business and Creative Industries","type":"Elective","g":"m6","mods":[6],"label":"A","venue":"Admiralty","sessions":[{"d":"2027-05-06","s":[[840,1020]]},{"d":"2027-05-10","s":[[840,1020]]},{"d":"2027-05-17","s":[[840,1020]]},{"d":"2027-05-20","s":[[840,1020]]},{"d":"2027-05-24","s":[[840,1020]]},{"d":"2027-05-27","s":[[840,1020]]},{"d":"2027-05-31","s":[[840,1020]]},{"d":"2027-06-03","s":[[840,1020]]},{"d":"2027-06-07","s":[[840,1020]]},{"d":"2027-06-10","s":[[840,1020]]}]}];const SCOPES=[
+  {key:'sem1',name:'学期1（M1–M2）',mods:[1,2],range:'开课日期：2026年9月5日 – 11月30日（秋季学期）'},
+  {key:'sem2',name:'学期2（M3–M4）',mods:[3,4],range:'开课日期：2026年12月1日 – 2027年3月10日（春季学期前半）'},
+  {key:'late',name:'下学期（M5–M6）',mods:[5,6],range:'开课日期：2027年3月18日 – 6月18日（春季学期后半 + 暑期）'},
+  {key:'all', name:'全部（汇总）',mods:null,range:'完整学年：2026年9月 – 2027年6月'},
+];
+let currentScope='sem1';
+let WEEKS=[];
+let currentWeek=0;
+
+/* ---------- 课程分组 ---------- */
+const GROUPS=[
+  {key:'s1',name:'学期 1（Module 1–2）',mods:[1,2]},
+  {key:'m1',name:'Module 1（9月–10月）',mods:[1]},
+  {key:'m2',name:'Module 2（10月–11月）',mods:[2]},
+  {key:'s2',name:'学期 2（Module 3–4）',mods:[3,4]},
+  {key:'m3',name:'Module 3（12月–1月）',mods:[3]},
+  {key:'m4',name:'Module 4（1月–3月）',mods:[4]},
+  {key:'m5',name:'Module 5（3月–5月）',mods:[5]},
+  {key:'m6',name:'Module 6（5月–6月）',mods:[6]},
+];
+const DAYS=[null,'周一','周二','周三','周四','周五','周六','周日'];
+const TOP=540, BOT=1350, PX=0.92;            // 9:00 – 22:30
+const gridH=(BOT-TOP)*PX;
+const sel=new Set();
+const idOf=s=>s.code+'-'+s.label;
+
+/* ---------- 日期工具 ---------- */
+function parseD(s){const p=s.split('-').map(Number);return new Date(Date.UTC(p[0],p[1]-1,p[2]));}
+function fmtD(dt){const y=dt.getUTCFullYear(),m=String(dt.getUTCMonth()+1).padStart(2,'0'),d=String(dt.getUTCDate()).padStart(2,'0');return y+'-'+m+'-'+d;}
+function addDays(s,n){const dt=parseD(s);dt.setUTCDate(dt.getUTCDate()+n);return fmtD(dt);}
+function mondayOf(s){const dt=parseD(s);const wd=dt.getUTCDay();const diff=(wd===0?-6:1-wd);return addDays(s,diff);}
+function weekdayOf(s){const w=parseD(s).getUTCDay();return w===0?7:w;}
+function md(s){const dt=parseD(s);return (dt.getUTCMonth()+1)+'/'+dt.getUTCDate();}
+function fmt(min){const h=Math.floor(min/60),m=min%60;return h+':'+(m<10?'0'+m:m);}
+
+/* ---------- 冲突判断（基于真实 session） ---------- */
+function overlap(a,b){return a[0]<b[1] && b[0]<a[1];}
+function periodsOverlap(m1,m2){return m1.some(x=>m2.includes(x));}
+function sessionsOverlap(a,b){
+  for(const sa of a.sessions)for(const sb of b.sessions){
+    if(sa.d!==sb.d)continue;
+    for(const x of sa.s)for(const y of sb.s)if(overlap(x,y))return true;
+  }
+  return false;
+}
+function conflictWith(s){
+  for(const id of sel){
+    const t=SECTIONS.find(x=>idOf(x)===id);
+    if(!t)continue;
+    if(t.code===s.code) return {reason:'course',with:t};
+    if(periodsOverlap(s.mods,t.mods) && sessionsOverlap(s,t)) return {reason:'time',with:t};
+  }
+  return null;
+}
+function statusOf(s){
+  if(s.cancelled) return 'cancelled';
+  if(sel.has(idOf(s))) return 'sel';
+  const c=conflictWith(s);
+  if(c) return c.reason==='course'?'owned':'conflict';
+  return 'avail';
+}
+function typeClass(t){return t==='Core'?'core':t==='Elective'?'elec':'cap';}
+
+/* ---------- 左侧“上课时间”摘要（从真实日期推导） ---------- */
+function whenSummary(s){
+  const byDay={};
+  s.sessions.forEach(se=>{
+    const wd=weekdayOf(se.d);
+    (byDay[wd]=byDay[wd]||new Set());
+    se.s.forEach(sl=>byDay[wd].add(fmt(sl[0])+'-'+fmt(sl[1])));
+  });
+  return [1,2,3,4,5,6,7].filter(d=>byDay[d])
+    .map(d=>DAYS[d]+' '+[...byDay[d]].join('/')).join(' · ');
+}
+
+/* ---------- 渲染课程列表 ---------- */
+function renderCourses(){
+  const wrap=document.getElementById('courseList');
+  wrap.innerHTML='';
+  const codeGroups={};
+  SECTIONS.forEach(s=>{(codeGroups[s.code]=codeGroups[s.code]||[]).push(s.g);});
+  GROUPS.forEach(g=>{
+    const items=SECTIONS.filter(s=>s.g===g.key);
+    if(!items.length)return;
+    const grp=document.createElement('div');grp.className='grp';grp.id='grp-'+g.key;
+    grp.innerHTML='<h3>'+g.name+'</h3>';
+    const byCode={};
+    items.forEach(s=>{(byCode[s.code]=byCode[s.code]||[]).push(s);});
+    Object.keys(byCode).forEach(code=>{
+      const secs=byCode[code];
+      const first=secs[0];
+      const cross=codeGroups[code].length>1;
+      const card=document.createElement('div');card.className='card';
+      let opts='';
+      secs.forEach(s=>{
+        const st=statusOf(s);
+        const cls=['opt'];
+        if(st==='sel')cls.push('sel',typeClass(s.type));
+        if(st==='owned'||st==='conflict')cls.push('dim');
+        let reason='';
+        if(st==='cancelled'){cls.push('dim');reason='<span class="reason">该班已取消（v3）</span>';}
+        else if(st==='owned')reason='<span class="reason">已选该课其他班</span>';
+        else if(st==='conflict'){const c=conflictWith(s);reason='<span class="reason">时间冲突：'+c.with.code+'</span>';}
+        opts+='<div class="'+cls.join(' ')+'" data-id="'+idOf(s)+'">'+
+              '<span class="lab">'+s.label+'班</span>'+
+              '<span class="when">'+whenSummary(s)+'</span>'+
+              '<span class="ven">'+s.venue+'</span>'+reason+'</div>';
+      });
+      card.innerHTML='<div class="top">'+
+        '<span class="code">'+code+'</span>'+
+        '<span class="badge b-'+typeClass(first.type)+'">'+(first.type==='Core'?'核心':first.type==='Elective'?'选修':'Capstone')+'</span>'+
+        (cross?'<span class="badge b-cross">跨学期</span>':'')+
+        '<span class="title">'+first.title+'</span></div>'+
+        '<div class="opts">'+opts+'</div>';
+      grp.appendChild(card);
+    });
+    wrap.appendChild(grp);
+  });
+}
+
+/* ---------- 事件委托（保险） ---------- */
+document.getElementById('courseList').addEventListener('click',e=>{
+  const el=e.target.closest('.opt');
+  if(!el || el.classList.contains('dim'))return;
+  onPick(el.dataset.id);
+});
+
+/* ---------- 选择 / 取消 ---------- */
+function onPick(id){
+  const s=SECTIONS.find(x=>idOf(x)===id);
+  if(sel.has(id)){sel.delete(id);renderCourses();renderGrid();updateCounts();return;}
+  const st=statusOf(s);
+  if(st==='cancelled'){toast('该班次已取消（v3 版）');return;}
+  if(st==='owned'){toast('该课已选其他班（'+s.code+'）');return;}
+  if(st==='conflict'){const c=conflictWith(s);toast('时间冲突：与 '+c.with.code+' 时间重叠');return;}
+  sel.add(id);
+  // 若当前学期视图不含该课，自动切到对应学期，保证点了一定能看到
+  const sk=scopeOfCourse(s);
+  if(sk && currentScope!==sk){currentScope=sk;buildWeeks();renderTabs();renderStrip();}
+  renderCourses();renderGrid();updateCounts();
+  jumpToCourseWeek(s);
+}
+
+/* ---------- 周列表构建 ---------- */
+function buildWeeks(){
+  const sc=SCOPES.find(x=>x.key===currentScope);
+  const mods=sc.mods;
+  const dates=[];
+  SECTIONS.forEach(s=>{
+    if(mods && !mods.some(m=>s.mods.includes(m)))return;
+    s.sessions.forEach(se=>dates.push(se.d));
+  });
+  if(!dates.length){WEEKS=[];return;}
+  dates.sort();
+  let start=mondayOf(dates[0]);
+  const endM=mondayOf(dates[dates.length-1]);
+  const weeks=[];let idx=0;let cur=start;
+  while(cur<=endM){weeks.push({idx:idx,start:cur,end:addDays(cur,6)});cur=addDays(cur,7);idx++;}
+  WEEKS=weeks;
+  if(currentWeek>=weeks.length)currentWeek=weeks.length-1;
+  if(currentWeek<0)currentWeek=0;
+}
+function jumpToCourseWeek(s){
+  if(!s.sessions.length)return;
+  const sd=s.sessions.map(x=>x.d).sort()[0];
+  const m=mondayOf(sd);
+  const i=WEEKS.findIndex(w=>w.start<=m && m<=w.end);
+  if(i>=0){currentWeek=i;renderGrid();renderStrip();}
+}
+
+/* 跳到第一门已选课的第一周（一键载入后避免停在空周） */
+function jumpToFirstSelectedWeek(){
+  if(!WEEKS.length)return;
+  let earliest=null;
+  sel.forEach(id=>{const s=SECTIONS.find(x=>idOf(x)===id);if(s)s.sessions.forEach(se=>{if(!earliest||se.d<earliest)earliest=se.d;});});
+  if(!earliest)return;
+  const m=mondayOf(earliest);
+  const i=WEEKS.findIndex(w=>w.start<=m && m<=w.end);
+  if(i>=0){currentWeek=i;renderGrid();renderStrip();}
+}
+function scopeOfCourse(s){
+  for(const sc of SCOPES){
+    if(sc.mods===null)continue;
+    if(s.mods.some(m=>sc.mods.includes(m)))return sc.key;
+  }
+  return 'all';
+}
+
+/* ---------- 周条 ---------- */
+let stripDrag=false,stripStartX=0,stripStartScroll=0;
+function renderStrip(){
+  const wrap=document.getElementById('weekStrip');
+  if(!WEEKS.length){wrap.innerHTML='';return;}
+  let html='';
+  // 统计每周已选课程数
+  const cnt={};
+  SECTIONS.filter(s=>sel.has(idOf(s))).forEach(s=>{
+    s.sessions.forEach(se=>{const m=mondayOf(se.d);if(cnt[m])cnt[m]++;else cnt[m]=1;});
+  });
+  WEEKS.forEach(w=>{
+    const cls=w.idx===currentWeek?'wkchip active':'wkchip';
+    const c=cnt[w.start]||0;
+    html+='<div class="'+cls+'" data-i="'+w.idx+'">'+md(w.start)+'–'+md(w.end)+
+          (c?'<span class="cls">'+c+' 门课</span>':'<span class="cls">—</span>')+'</div>';
+  });
+  wrap.innerHTML=html;
+  wrap.querySelectorAll('.wkchip').forEach(el=>el.addEventListener('click',()=>{
+    currentWeek=+el.dataset.i;renderGrid();renderStrip();scrollStripToActive();
+  }));
+  scrollStripToActive();
+}
+function scrollStripToActive(){
+  const wrap=document.getElementById('weekStrip');
+  const el=wrap.querySelector('.wkchip.active');
+  if(el)el.scrollIntoView({inline:'center',block:'nearest'});
+}
+
+/* ---------- 渲染周课表 ---------- */
+function renderGrid(){
+  const sc=SCOPES.find(x=>x.key===currentScope);
+  document.getElementById('calRange').innerHTML='<b>'+sc.name+'</b>　'+sc.range;
+  const grid=document.getElementById('calGrid');
+  const empty=document.getElementById('calEmpty');
+  if(!WEEKS.length){grid.innerHTML='';empty.style.display='block';empty.textContent='该范围暂无课程数据。';return;}
+  empty.style.display='none';
+  const wk=WEEKS[currentWeek];
+  document.getElementById('wkLabel').innerHTML='第 '+(currentWeek+1)+' 周 <span class="sub">'+md(wk.start)+' – '+md(wk.end)+'</span>';
+
+  const visSel=SECTIONS.filter(s=>sel.has(idOf(s)));
+  const days=[];
+  for(let d=1;d<=7;d++){
+    const dateStr=addDays(wk.start,d-1);
+    const blocks=[];
+    visSel.forEach(s=>{s.sessions.forEach(se=>{
+      if(se.d===dateStr)se.s.forEach(sl=>blocks.push({s,date:se.d,start:sl[0],end:sl[1]}));
+    });});
+    days.push({wd:d,date:dateStr,blocks});
+  }
+  // 同天时间重叠 → 冲突标记
+  const cfSet=new Set();
+  days.forEach(day=>{
+    for(let i=0;i<day.blocks.length;i++)for(let j=i+1;j<day.blocks.length;j++){
+      const a=day.blocks[i],b=day.blocks[j];
+      if(a.start<b.end && b.start<a.end){
+        cfSet.add(a);cfSet.add(b);
+      }
+    }
+  });
+
+  let html='<div class="axis">';
+  for(let h=9;h<=22;h++){const y=(h*60-TOP)*PX;html+='<div class="hl" style="top:'+y+'px">'+h+':00</div>';}
+  html+='</div><div class="days" style="height:'+gridH+'px">';
+  days.forEach(day=>{
+    const isWknd=day.wd>=6;
+    const free=day.blocks.length===0;
+    html+='<div class="day'+(isWknd?' wknd':'')+'">';
+    html+='<div class="dh">'+DAYS[day.wd]+'</div><div class="dd">'+md(day.date)+'</div>';
+    // 实习绿色区（工作日 9:00-18:00）
+    if(!isWknd){
+      const t=(540-TOP)*PX, b=(1080-TOP)*PX;
+      html+='<div class="intern" style="top:'+t+'px;height:'+(b-t)+'px"></div>';
+    }
+    // 小时线
+    for(let h=9;h<=22;h++){const y=(h*60-TOP)*PX;html+='<div class="hr'+(h%2?' solid':'')+'" style="top:'+y+'px"></div>';}
+    // 课程块（按开始时间排序 + 列布局）
+    const sorted=day.blocks.slice().sort((a,b)=>a.start-b.start);
+    const cols=[];
+    sorted.forEach(bk=>{
+      let ci=cols.findIndex(end=>end<=bk.start);
+      if(ci<0){ci=cols.length;cols.push(0);}
+      cols[ci]=bk.end;
+      const colN=cols.length;
+      const top=(bk.start-TOP)*PX, h=(bk.end-bk.start)*PX;
+      const leftPct=ci/colN*100, wPct=1/colN*100;
+      const tc=typeClass(bk.s.type);
+      const cf=cfSet.has(bk)?' cf':'';
+      const dt=parseD(bk.date);
+      const dtxt=(dt.getUTCMonth()+1)+'月'+dt.getUTCDate()+'日';
+      html+='<div class="blk '+tc+cf+'" style="top:'+top+'px;height:'+Math.max(h-2,15)+'px;left:calc('+leftPct+'% + 3px);width:calc('+wPct+'% - 6px)" '+
+            'title="'+bk.s.code+' '+bk.s.label+'班 · '+DAYS[day.wd]+dtxt+' '+fmt(bk.start)+'-'+fmt(bk.end)+' · '+bk.s.venue+'" data-id="'+idOf(bk.s)+'">'+
+            '<div class="bcode">'+bk.s.code+'</div>'+bk.s.label+'班 · <span class="bven">'+bk.s.venue+'</span></div>';
+    });
+    html+='</div>';
+  });
+  html+='</div>';
+  grid.innerHTML=html;
+  grid.querySelectorAll('.blk').forEach(el=>el.addEventListener('click',()=>{sel.delete(el.dataset.id);renderCourses();renderGrid();updateCounts();}));
+}
+
+/* ---------- 计数器 ---------- */
+function updateCounts(){
+  let core=0,cap=0,elec=0;
+  sel.forEach(id=>{const s=SECTIONS.find(x=>idOf(x)===id);if(s.type==='Core')core++;else if(s.type==='Capstone')cap++;else elec++;});
+  document.getElementById('cCore').textContent=core;
+  document.getElementById('cCap').textContent=cap;
+  document.getElementById('cElec').textContent=elec;
+  const t=document.getElementById('cTotal');
+  if(t)t.textContent=sel.size;
+  const chip=document.getElementById('cTotalChip');
+  if(elec>3){chip.className='chip warn';chip.innerHTML='选修超过 3 门！<b id="cTotal">'+elec+'</b>/3';}
+  else{chip.className='chip';chip.innerHTML='已选 <b id="cTotal">'+sel.size+'</b>';}
+}
+
+/* ---------- 学期分步标签 ---------- */
+function renderTabs(){
+  const wrap=document.getElementById('tabs');wrap.innerHTML='';
+  SCOPES.forEach(sc=>{
+    const b=document.createElement('div');
+    b.className='tab'+(sc.key===currentScope?' active':'');
+    b.textContent=sc.name;
+    b.addEventListener('click',()=>{
+      currentScope=sc.key;currentWeek=0;buildWeeks();renderTabs();renderStrip();renderGrid();
+      if(sc.groups && sc.groups.length){const el=document.getElementById('grp-'+sc.groups[0]);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+    });
+    wrap.appendChild(b);
+  });
+}
+
+/* ---------- 周导航 ---------- */
+function gotoWeek(i){
+  if(!WEEKS.length)return;
+  currentWeek=Math.max(0,Math.min(WEEKS.length-1,i));
+  renderGrid();renderStrip();
+}
+document.getElementById('wkPrev').addEventListener('click',()=>gotoWeek(currentWeek-1));
+document.getElementById('wkNext').addEventListener('click',()=>gotoWeek(currentWeek+1));
+// 方向键
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft'){gotoWeek(currentWeek-1);}
+  else if(e.key==='ArrowRight'){gotoWeek(currentWeek+1);}
+});
+// 拖动周条
+const strip=document.getElementById('weekStrip');
+strip.addEventListener('pointerdown',e=>{stripDrag=true;strip.classList.add('drag');stripStartX=e.clientX;stripStartScroll=strip.scrollLeft;});
+window.addEventListener('pointerup',()=>{stripDrag=false;strip.classList.remove('drag');});
+strip.addEventListener('pointermove',e=>{if(stripDrag)strip.scrollLeft=stripStartScroll-(e.clientX-stripStartX);});
+
+/* ---------- 推荐方案 ---------- */
+const PRESET=['MSMK7001-E','MSMK7004-E','MSMK7013-A','MSMK7015-B','MSMK7025-C',
+              'MSMK7002-B','MSMK7003-D','MSMK7005-B'];
+document.getElementById('btnPreset').addEventListener('click',()=>{
+  sel.clear();PRESET.forEach(id=>sel.add(id));
+  currentScope='all';currentWeek=0;buildWeeks();
+  renderTabs();renderCourses();renderStrip();renderGrid();updateCounts();
+  jumpToFirstSelectedWeek();
+  toast('已载入已注册方案（8 门无冲突）');
+  if(isMobile())setCoursesOpen(false);
+});
+document.getElementById('btnReset').addEventListener('click',()=>{sel.clear();renderCourses();renderGrid();renderStrip();updateCounts();});
+
+/* ---------- 方案保存 / 导入（localStorage 持久化） ---------- */
+const PLAN_KEY='msmktg_plans_v1';
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function loadPlans(){try{return JSON.parse(localStorage.getItem(PLAN_KEY))||[];}catch(e){return [];}}
+function writePlans(arr){localStorage.setItem(PLAN_KEY,JSON.stringify(arr));}
+function renderPlans(){
+  const wrap=document.getElementById('planPanel');
+  const plans=loadPlans();
+  if(!plans.length){wrap.innerHTML='<span class="phint">暂无保存的方案，点「保存方案」把当前选课存下来。</span>';return;}
+  wrap.innerHTML='<span class="phint">我的方案（点击一键导入）：</span>'+plans.map((p,i)=>
+    '<span class="plan-item" data-i="'+i+'" title="点击导入「'+escapeHtml(p.name)+'」">'+
+      '<span class="pn">'+escapeHtml(p.name)+'</span>'+
+      '<span class="pc">'+p.ids.length+'门</span>'+
+      '<button class="pdel" title="删除该方案" data-del="'+i+'">×</button></span>'
+  ).join('');
+}
+document.getElementById('btnSavePlan').addEventListener('click',()=>{
+  if(!sel.size){toast('当前没有已选课程，无法保存');return;}
+  const def='方案 '+(loadPlans().length+1);
+  let name;
+  try{name=window.prompt('给这个方案起个名字：',def);}catch(e){name=def;}
+  if(name===null)return;                 // 用户取消
+  const nm=name.trim()||def;
+  const plans=loadPlans();
+  plans.push({name:nm,ids:[...sel],savedAt:Date.now()});
+  writePlans(plans);renderPlans();
+  toast('已保存方案「'+nm+'」（'+sel.size+'门）');
+});
+document.getElementById('planPanel').addEventListener('click',e=>{
+  const del=e.target.closest('.pdel');
+  if(del){
+    const i=+del.dataset.del;const plans=loadPlans();const nm=plans[i]?plans[i].name:'';
+    plans.splice(i,1);writePlans(plans);renderPlans();
+    toast('已删除方案「'+nm+'」');return;
+  }
+  const item=e.target.closest('.plan-item');
+  if(item){
+    const i=+item.dataset.i;const plans=loadPlans();const p=plans[i];if(!p)return;
+    sel.clear();p.ids.forEach(id=>{if(SECTIONS.some(s=>idOf(s)===id))sel.add(id);});
+    currentScope='all';currentWeek=0;buildWeeks();
+    renderTabs();renderCourses();renderStrip();renderGrid();updateCounts();
+    jumpToFirstSelectedWeek();
+    toast('已导入方案「'+p.name+'」（'+sel.size+'门）');
+  }
+});
+
+/* ---------- toast ---------- */
+let toastTimer;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2600);}
+
+/* ---------- 手机端：课程列表抽屉 ---------- */
+function isMobile(){return window.matchMedia('(max-width:820px)').matches;}
+function setCoursesOpen(open){
+  const list=document.getElementById('courseList'), btn=document.getElementById('btnCourses');
+  list.classList.toggle('open',open);
+  if(btn)btn.innerHTML=open?'收起课程列表 · <b>完成</b>':'展开课程列表 · <b>选课</b>';
+}
+document.getElementById('btnCourses').addEventListener('click',()=>{
+  setCoursesOpen(!document.getElementById('courseList').classList.contains('open'));
+});
+// 手机端点选班次后自动收起列表，回到周视图
+document.getElementById('courseList').addEventListener('click',e=>{
+  const el=e.target.closest('.opt');
+  if(el && !el.classList.contains('dim') && isMobile())setTimeout(()=>setCoursesOpen(false),150);
+});
+
+/* ---------- 初始化 ---------- */
+/* ===== 手机查看版：开页即载入 8 门已注册课 ===== */
+sel.clear();
+PRESET.forEach(id=>sel.add(id));
+currentScope='all';currentWeek=0;buildWeeks();
+renderTabs();renderCourses();renderStrip();renderGrid();updateCounts();renderPlans();
+jumpToFirstSelectedWeek();
+</script>
+</body>
+</html>
