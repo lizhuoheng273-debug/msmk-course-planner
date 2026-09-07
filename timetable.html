@@ -217,6 +217,7 @@ const GROUPS=[
 ];
 const DAYS=[null,'周一','周二','周三','周四','周五','周六','周日'];
 const TOP=540, BOT=1350, PX=0.92;            // 9:00 – 22:30
+const HDR=34;                                  // 表头（周几+日期）条带高度，课程块/时间线整体下移避让
 const gridH=(BOT-TOP)*PX;
 const sel=new Set();
 const idOf=s=>s.code+'-'+s.label;
@@ -445,8 +446,8 @@ function renderGrid(){
   });
 
   let html='<div class="axis">';
-  for(let h=9;h<=22;h++){const y=(h*60-TOP)*PX;html+='<div class="hl" style="top:'+y+'px">'+h+':00</div>';}
-  html+='</div><div class="days" style="height:'+gridH+'px">';
+  for(let h=9;h<=22;h++){const y=(h*60-TOP)*PX+HDR;html+='<div class="hl" style="top:'+y+'px">'+h+':00</div>';}
+  html+='</div><div class="days" style="height:'+(gridH+HDR)+'px">';
   days.forEach(day=>{
     const isWknd=day.wd>=6;
     const free=day.blocks.length===0;
@@ -454,11 +455,11 @@ function renderGrid(){
     html+='<div class="dh">'+DAYS[day.wd]+'</div><div class="dd">'+md(day.date)+'</div>';
     // 实习绿色区（工作日 9:00-18:00）
     if(!isWknd){
-      const t=(540-TOP)*PX, b=(1080-TOP)*PX;
+      const t=(540-TOP)*PX+HDR, b=(1080-TOP)*PX+HDR;
       html+='<div class="intern" style="top:'+t+'px;height:'+(b-t)+'px"></div>';
     }
     // 小时线
-    for(let h=9;h<=22;h++){const y=(h*60-TOP)*PX;html+='<div class="hr'+(h%2?' solid':'')+'" style="top:'+y+'px"></div>';}
+    for(let h=9;h<=22;h++){const y=(h*60-TOP)*PX+HDR;html+='<div class="hr'+(h%2?' solid':'')+'" style="top:'+y+'px"></div>';}
     // 课程块（按开始时间排序 + 分簇列布局：重叠卡片并排分栏，不叠压）
     const sorted=day.blocks.slice().sort((a,b)=>a.start-b.start);
     const clusters=[];let cur=null;
@@ -476,7 +477,7 @@ function renderGrid(){
       cl.items.forEach(bk=>bk.nCols=colEnds.length);
     });
     sorted.forEach(bk=>{
-      const top=(bk.start-TOP)*PX, h=(bk.end-bk.start)*PX;
+      const top=(bk.start-TOP)*PX+HDR, h=(bk.end-bk.start)*PX;
       const leftPct=bk.col/bk.nCols*100, wPct=1/bk.nCols*100;
       const tc=typeClass(bk.s.type);
       const cf=cfSet.has(bk)?' cf':'';
