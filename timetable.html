@@ -143,7 +143,7 @@
   <div class="counts" data-page-node-id="rEF1ifGnRwlok5fK9eK6Fn">
     <span class="chip core" data-page-node-id="3BxVZG8zUibSUarzb54xVY">必修 <b id="cCore" data-page-node-id="0Z5eU6yPC6kNJ0Xi5tgBZ1">0</b>/4</span>
     <span class="chip cap" data-page-node-id="wKzvvPFhJwirrm6wP3zqNz">Capstone <b id="cCap" data-page-node-id="YsEebaX93gp3w0IfoSrCDU">0</b>/1</span>
-    <span class="chip elec" data-page-node-id="2tRDHm5jsKQaNoPJmBTqXO">选修 <b id="cElec" data-page-node-id="yen9l8CV3vB1IYZIWuu34p">0</b>/3</span>
+    <span class="chip elec" data-page-node-id="2tRDHm5jsKQaNoPJmBTqXO">选修 <b id="cElec" data-page-node-id="yen9l8CV3vB1IYZIWuu34p">0</b>/5</span>
     <span class="chip" id="cTotalChip" data-page-node-id="FEnvxpuSPQBH9Qj8zYbJ4Z">已选 <b id="cTotal" data-page-node-id="XCczQrRhyEdE2JUrYwzWsu">0</b></span>
   </div>
 </header>
@@ -504,7 +504,7 @@ function updateCounts(){
   const t=document.getElementById('cTotal');
   if(t)t.textContent=sel.size;
   const chip=document.getElementById('cTotalChip');
-  if(elec>3){chip.className='chip warn';chip.innerHTML='选修超过 3 门！<b id="cTotal">'+elec+'</b>/3';}
+  if(elec>5){chip.className='chip warn';chip.innerHTML='选修超过 5 门！<b id="cTotal">'+elec+'</b>/5';}
   else{chip.className='chip';chip.innerHTML='已选 <b id="cTotal">'+sel.size+'</b>';}
 }
 
