@@ -94,12 +94,13 @@
   .intern{position:absolute;left:0;right:0;background:rgba(59,138,59,.07);border-top:1px dashed rgba(59,138,59,.3);border-bottom:1px dashed rgba(59,138,59,.3);z-index:0}
   .hr{position:absolute;left:0;right:0;border-top:1px dashed var(--line);font-size:0;z-index:1}
   .hr.solid{border-top:1px solid #eef1f6}
-  .blk{position:absolute;left:3px;right:3px;border-radius:7px;padding:3px 5px;color:#fff;font-size:10.5px;line-height:1.25;
+  .blk{position:absolute;left:3px;right:3px;border-radius:7px;padding:3px 5px;color:#fff;font-size:10.5px;line-height:1.25;overflow:hidden;
        overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.18);cursor:pointer;z-index:2}
   .blk.core{background:var(--core)} .blk.elec{background:var(--elec)} .blk.cap{background:var(--cap)}
   .blk.cf{outline:2px solid var(--warn);outline-offset:-2px}
   .blk .bcode{font-weight:700;font-size:11px}
   .blk .bven{opacity:.92;font-size:9.5px}
+  .blk .btime{opacity:.95;font-size:9.5px}
   .empty{color:var(--sub);font-size:13px;text-align:center;padding:40px 10px}
   .legend{display:flex;gap:14px;font-size:12px;color:var(--sub);margin-top:8px;align-items:center;flex-wrap:wrap}
   .dot{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
@@ -458,23 +459,32 @@ function renderGrid(){
     }
     // 小时线
     for(let h=9;h<=22;h++){const y=(h*60-TOP)*PX;html+='<div class="hr'+(h%2?' solid':'')+'" style="top:'+y+'px"></div>';}
-    // 课程块（按开始时间排序 + 列布局）
+    // 课程块（按开始时间排序 + 分簇列布局：重叠卡片并排分栏，不叠压）
     const sorted=day.blocks.slice().sort((a,b)=>a.start-b.start);
-    const cols=[];
+    const clusters=[];let cur=null;
     sorted.forEach(bk=>{
-      let ci=cols.findIndex(end=>end<=bk.start);
-      if(ci<0){ci=cols.length;cols.push(0);}
-      cols[ci]=bk.end;
-      const colN=cols.length;
+      if(cur && bk.start<cur.end){cur.end=Math.max(cur.end,bk.end);cur.items.push(bk);}
+      else{cur={end:bk.end,items:[bk]};clusters.push(cur);}
+    });
+    clusters.forEach(cl=>{
+      const colEnds=[];
+      cl.items.forEach(bk=>{
+        let ci=colEnds.findIndex(e=>e<=bk.start);
+        if(ci<0){ci=colEnds.length;colEnds.push(0);}
+        colEnds[ci]=bk.end;bk.col=ci;
+      });
+      cl.items.forEach(bk=>bk.nCols=colEnds.length);
+    });
+    sorted.forEach(bk=>{
       const top=(bk.start-TOP)*PX, h=(bk.end-bk.start)*PX;
-      const leftPct=ci/colN*100, wPct=1/colN*100;
+      const leftPct=bk.col/bk.nCols*100, wPct=1/bk.nCols*100;
       const tc=typeClass(bk.s.type);
       const cf=cfSet.has(bk)?' cf':'';
       const dt=parseD(bk.date);
       const dtxt=(dt.getUTCMonth()+1)+'月'+dt.getUTCDate()+'日';
       html+='<div class="blk '+tc+cf+'" style="top:'+top+'px;height:'+Math.max(h-2,15)+'px;left:calc('+leftPct+'% + 3px);width:calc('+wPct+'% - 6px)" '+
             'title="'+bk.s.code+' '+bk.s.label+'班 · '+DAYS[day.wd]+dtxt+' '+fmt(bk.start)+'-'+fmt(bk.end)+' · '+bk.s.venue+'" data-id="'+idOf(bk.s)+'">'+
-            '<div class="bcode">'+bk.s.code+'</div>'+bk.s.label+'班 · <span class="bven">'+bk.s.venue+'</span></div>';
+            '<div class="bcode">'+bk.s.code+'</div><span class="btime">'+fmt(bk.start)+'-'+fmt(bk.end)+'</span> · '+bk.s.label+'班<div class="bven">'+bk.s.venue+'</div></div>';
     });
     html+='</div>';
   });
