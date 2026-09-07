@@ -130,7 +130,6 @@
   .blk .bcode{font-size:11px}
   .legend{margin-top:10px;flex-wrap:wrap;gap:12px;font-size:11.5px}
   .foot{font-size:11px;line-height:1.55}
-  .quick-link{display:inline-block;font-size:12px;color:var(--core);text-decoration:none;margin-left:6px;padding:3px 9px;border:1px solid var(--line);border-radius:7px;background:#fff}
   @media (min-width:900px){
     .cal-wrap{overflow-x:visible}
     .grid{min-width:0}
@@ -155,7 +154,6 @@
     <button class="btn-courses" id="btnCourses" data-page-node-id="idBDoBA7UZYOslXmQUcU0e">展开课程列表 · <b data-page-node-id="prOTDMKeRNDLocGXqUTRs2">选课</b></button>
     <div class="cal-toolbar" data-page-node-id="x4vTFLTG3azeDYmmtfZ4DF">
       <div class="tabs" id="tabs" data-page-node-id="3qnokzXj4WSjVXFhc97SAb"></div>
-      <a class="quick-link" href="./index.html" target="_blank">完整版（含选课）</a>
       <div class="cal-btns" data-page-node-id="JMJ2bYeW6bswF79sTZIkK8">
         <button class="primary" id="btnPreset" data-page-node-id="YhZHKffZmVEw8kTPg3rtxI">一键载入推荐</button>
         <button id="btnSavePlan" data-page-node-id="JqaGMrk6WTEWtQKB8evNgc">保存方案</button>
@@ -626,7 +624,7 @@ document.getElementById('courseList').addEventListener('click',e=>{
 /* ===== 手机查看版：开页即载入 8 门已注册课 ===== */
 sel.clear();
 PRESET.forEach(id=>sel.add(id));
-currentScope='all';currentWeek=0;buildWeeks();
+currentScope='sem1';currentWeek=0;buildWeeks();
 renderTabs();renderCourses();renderStrip();renderGrid();updateCounts();renderPlans();
 jumpToFirstSelectedWeek();
 </script>
